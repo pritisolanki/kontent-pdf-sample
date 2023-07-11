@@ -1,18 +1,36 @@
 const express = require("express");
 const path = require("path");
+const axios = require('axios');
+require('dotenv').config()
 
 const app = express();
 const port = process.env.PORT || "3000";
 
 app.get("/", (req, res) => {
-    res.render("index", { 
+    const api_url = `https://deliver.kontent.ai/${process.env.project_id}/items/${process.env.item_codename}`;
+    /* call kontent.ai url */
+    axios.get(api_url)
+    .then(function (response) {
+        // handle success
+       // console.log(response.data.modular_content);
+        const authoritem = response.data.item.elements.author.value[0];
+        res.render("index", { 
             title: "Home",
-            maintitle:"Storms relentless as California drenching goes on", 
-            summary:"Multi-million dollar beach homes battered by winds, cars swallowed up by sinkholes, and over a dozen people killed - after weeks of extreme storms, many Californians are wondering when it will end.",
-            description: "Multi-million dollar beach homes battered by winds, cars swallowed up by sinkholes, and over a dozen people killed - after weeks of extreme storms, many Californians are wondering when it will end.The state\'s famously sunny southern coast has been hit by storm after storm since the December holidays, eroding roads, felling trees and causing landslides.",
-            author: "Matt McGrath",
-            heroimage: "https://assets-us-01.kc-usercontent.com:443/de5ae299-9a31-0088-0530-600cb3679f83/a456a335-795e-4ae3-9abf-b58038b87bfb/death-valley.jpg?w=700&h=700&fit=clip"
-        });
+            maintitle:response.data.item.elements.title.value, 
+            summary:response.data.item.elements.summary.value,
+            description: response.data.item.elements.description.value,
+            author: `${response.data.modular_content[authoritem].elements.first_name.value} ${response.data.modular_content[authoritem].elements.second_name.value}`,
+            heroimage: response.data.item.elements.hero_image.value[0].url
+     });
+    })
+    .catch(function (error) {
+        // handle error
+        console.log(error);
+    })
+    .finally(function () {
+        // always executed
+    });
+    /**poppulate all the variable from above api call */
   });
 
 app.set("views", path.join(__dirname, "views"));
