@@ -1,0 +1,12 @@
+extends layout
+
+block layout-content
+  div.View
+    h1.Banner #{maintitle}
+    div.article 
+        p #{summary} 
+        p
+            by #{author}
+
+        img(src = heroimage ).imgcontainer
+        div #{description}
