@@ -1,6 +1,6 @@
 # PDF Generation
 
-In Kontent.ai, we are able to provide structure to our content. PDF is popular among the content industry for sharing and printing documents. There are two ways to work with pdf.
+In Kontent.ai, we can provide structure to our content. PDF is popular among the content industry for sharing and printing documents. There are two ways to work with pdf.
 
 - Generate transactional PDF using PDF Generator API: Super easy. This is the best tool if you want to work with PDF documents while setting up the templates and generating PDF instantly. It helps us to generate PDFs from JSON
 - Programmatic way: Using Node.js, generate HTML and download the PDF using [Puppeteer](https://pptr.dev/).
